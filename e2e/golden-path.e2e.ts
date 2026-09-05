@@ -30,8 +30,9 @@ test('footer : navigation vers la page Nos données', async ({ page }) => {
 		.getByRole('link', { name: /données|data/i })
 		.click();
 	await expect(page).toHaveURL(/\/donnees$/);
-	// Sans MongoDB disponible en environnement de test, la page doit tout de
-	// même s'afficher proprement (état d'erreur géré, pas une page 500).
 	await expect(page.locator('h1')).toBeVisible();
-	await expect(page.locator('.notice')).toBeVisible();
+	// La page doit s'afficher proprement dans tous les cas : liste de
+	// sources si des données existent, sinon état vide/erreur géré (jamais
+	// une page 500) — selon que MongoDB est disponible et peuplé ou non.
+	await expect(page.locator('.data-list, .notice').first()).toBeVisible();
 });

@@ -9,6 +9,49 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 _(aucun changement en attente)_
 
+## [0.4.0] — 2026-09-05 — Rapports annuels IGPN + vérification automatique
+
+### Added
+
+- Les 8 rapports annuels de l'IGPN (2017 à 2024) ajoutés comme premières
+  sources de données du projet, avec leur URL d'origine et leur date de
+  téléchargement
+- `scripts/check-igpn-updates.ts` (`npm run data:check-igpn`) : récupère la
+  page IGPN, compare aux sources déjà en base et télécharge + ajoute
+  automatiquement tout nouveau rapport détecté ; repli sur la dernière
+  capture Wayback Machine si le site direct est injoignable
+- Tâche cron installée sur cette machine : vérification trimestrielle
+  (1er janvier/avril/juillet/octobre à 8h), log dans `logs/igpn-check.log`
+- `src/lib/server/igpnReports.ts` : extraction pure des liens de rapports
+  depuis le HTML de la page (tolère les variations de nommage du site :
+  "Rapport annuel…", "IGPN RA…", faute de frappe "anuel")
+- `src/lib/server/addDataSource.ts` : logique de copie + insertion partagée
+  entre `add-data-source` (usage manuel) et `check-igpn-updates` (automatique)
+- Option `--original-name` sur `npm run data:add`, pour un nom de fichier
+  proposé au téléchargement indépendant du nom du fichier local
+- `src/lib/server/dataSourceArgs.ts` : parsing des arguments CLI extrait en
+  module pur et testé unitairement
+- Tests unitaires : extraction des rapports IGPN (dont le cas des liens
+  réécrits par Wayback Machine), parsing des arguments CLI
+
+### Fixed
+
+- Résolution d'URL incorrecte quand la page source est récupérée via
+  Wayback Machine (le HTML archivé réécrit les liens en
+  `/web/<timestamp>/<url>` ; l'URL d'origine est maintenant correctement
+  désenveloppée avant d'être enregistrée comme source)
+
+### User Story
+
+- En tant que porteur du projet, je veux que les rapports annuels de l'IGPN
+  soient téléchargés et catalogués automatiquement, avec une vérification
+  trimestrielle de nouveaux rapports, afin de maintenir la page « Nos
+  données » à jour sans intervention manuelle récurrente.
+
+### Prompt log
+
+- `2026-09-05 | Récupération des rapports annuels de l'IGPN listés sur le site de la police nationale, et mise en place d'une vérification trimestrielle de nouveaux rapports | data/sources/*, src/lib/server/igpnReports.ts, src/lib/server/addDataSource.ts, src/lib/server/dataSourceArgs.ts, scripts/add-data-source.ts, scripts/check-igpn-updates.ts, package.json, README.md, crontab`
+
 ## [0.3.2] — 2026-09-05 — Correction : MONGODB_URI non chargée en dev
 
 ### Fixed
@@ -150,7 +193,8 @@ _(aucun changement en attente)_
 
 - `2026-09-05 | Initialisation du projet Nodejs/SvelteKit/MongoDB | package.json, src/hooks.server.ts, src/lib/server/db.ts, src/lib/i18n/*, src/lib/utils/locale.ts, src/routes/+layout.svelte, src/routes/+page.svelte, src/routes/changelog/+page.svelte, CHANGELOG.md, README.md, .env.example`
 
-[Unreleased]: https://github.com/natoine/bavures/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/natoine/bavures/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/natoine/bavures/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/natoine/bavures/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/natoine/bavures/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/natoine/bavures/compare/v0.2.1...v0.3.0

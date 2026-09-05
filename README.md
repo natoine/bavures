@@ -35,8 +35,11 @@ src/
     server/
       db.ts               # connexion MongoDB (singleton)
       dataSources.ts       # modèle + accès Mongo pour les sources de données
-      dataStorage.ts        # résolution sûre du dossier/fichiers stockés
-      fileNaming.ts          # nettoyage de noms, MIME, Content-Disposition
+      dataSourceArgs.ts      # parsing des arguments CLI (pur, testé unitairement)
+      addDataSource.ts         # copie fichier + insertion Mongo (partagé par les scripts)
+      dataStorage.ts              # résolution sûre du dossier/fichiers stockés
+      fileNaming.ts                 # nettoyage de noms, MIME, Content-Disposition
+      igpnReports.ts                  # extraction des rapports IGPN depuis le HTML de la page
     utils/
       locale.ts             # négociation Accept-Language (pur, testé unitairement)
       formatBytes.ts          # formatage lisible d'une taille de fichier
@@ -47,8 +50,11 @@ src/
     aarri/                   # tableau AARRI + matrice d'impact
     donnees/                  # « Nos données » + téléchargement des documents
 data/sources/                  # documents sources stockés (voir data/sources/README.md)
-scripts/add-data-source.ts       # CLI pour ajouter une source de données
-e2e/                                # tests Playwright
+logs/                             # logs des tâches cron (non versionné)
+scripts/
+  add-data-source.ts               # CLI pour ajouter une source de données
+  check-igpn-updates.ts              # vérification automatique (cron, tous les 3 mois)
+e2e/                                    # tests Playwright
 ```
 
 ## Démarrage
@@ -109,8 +115,36 @@ npm run data:add -- \
   --source-url "https://... (où la donnée a été trouvée)" \
   --file /chemin/local/vers/le/document.pdf \
   --downloaded-at 2026-09-05 \
-  --description "Texte libre (optionnel)"
+  --description "Texte libre (optionnel)" \
+  --original-name "Nom affiché au téléchargement.pdf"
 ```
+
+### Rapports annuels de l'IGPN
+
+Première source du projet : les 8 rapports annuels de l'IGPN (2017-2024),
+listés sur
+[cette page](https://www.police-nationale.interieur.gouv.fr/nous-decouvrir/notre-organisation/organisation/linspection-generale-de-police-nationale-igpn).
+
+Une vérification automatique tourne tous les 3 mois (cron, voir ci-dessous)
+via `npm run data:check-igpn`
+([scripts/check-igpn-updates.ts](scripts/check-igpn-updates.ts)) : elle
+récupère la page, compare les rapports trouvés à ceux déjà en base (par
+titre), et télécharge + ajoute automatiquement tout nouveau millésime.
+Si le site direct est injoignable (pare-feu Cloudflare bloquant certains
+réseaux), le script retombe sur la dernière capture
+[Wayback Machine](https://web.archive.org) de la page.
+
+Tâche cron installée sur cette machine (`crontab -l`) :
+
+```cron
+PATH=/home/natoine/.nvm/versions/node/v22.22.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Bavures : verification trimestrielle d'un nouveau rapport annuel IGPN
+0 8 1 1,4,7,10 * cd /home/natoine/dev/bavures ; npx tsx scripts/check-igpn-updates.ts >> /home/natoine/dev/bavures/logs/igpn-check.log 2>&1
+```
+
+Elle tourne le 1er janvier, avril, juillet et octobre à 8h ; le résultat est
+journalisé dans `logs/igpn-check.log` (non versionné). MongoDB doit être
+démarré pour que la tâche fonctionne (voir section Démarrage).
 
 ## Internationalisation
 
