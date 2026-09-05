@@ -1,0 +1,21 @@
+{
+	"app": {
+		"title": "Bavures",
+		"tagline": "Outil de dataviz des bavures policières"
+	},
+	"nav": {
+		"home": "Accueil",
+		"changelog": "Journal des modifications"
+	},
+	"home": {
+		"heading": "Bavures",
+		"intro": "Cet outil visualise des données sur les bavures policières.",
+		"comingSoon": "Les visualisations arrivent prochainement."
+	},
+	"changelog": {
+		"heading": "Journal des modifications"
+	},
+	"footer": {
+		"sourceCode": "Code source"
+	}
+}

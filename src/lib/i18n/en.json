@@ -1,0 +1,21 @@
+{
+	"app": {
+		"title": "Bavures",
+		"tagline": "Police misconduct dataviz tool"
+	},
+	"nav": {
+		"home": "Home",
+		"changelog": "Changelog"
+	},
+	"home": {
+		"heading": "Bavures",
+		"intro": "This tool visualizes data on police misconduct.",
+		"comingSoon": "Visualizations are coming soon."
+	},
+	"changelog": {
+		"heading": "Changelog"
+	},
+	"footer": {
+		"sourceCode": "Source code"
+	}
+}
