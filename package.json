@@ -1,7 +1,7 @@
 {
 	"name": "bavures",
 	"private": true,
-	"version": "0.2.1",
+	"version": "0.3.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -14,7 +14,8 @@
 		"format": "prettier --write .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright install && playwright test"
+		"test:e2e": "playwright install && playwright test",
+		"data:add": "tsx scripts/add-data-source.ts"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
@@ -32,6 +33,7 @@
 		"svelte": "^5.56.1",
 		"svelte-check": "^4.6.0",
 		"svelte-i18n": "^4.0.1",
+		"tsx": "^4.23.13",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.60.1",
 		"vite": "^8.0.16",

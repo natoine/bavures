@@ -31,6 +31,7 @@
 				{$_('footer.sourceCode')}
 			</a>
 			<a href={resolve('/aarri')}>{$_('footer.aarri')}</a>
+			<a href={resolve('/donnees')}>{$_('data.pageTitle')}</a>
 		</footer>
 	</div>
 {/if}

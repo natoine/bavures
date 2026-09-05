@@ -66,6 +66,15 @@
 			}
 		}
 	},
+	"data": {
+		"pageTitle": "Nos données",
+		"intro": "Liste des sources de données utilisées par cet outil, de la plus récente à la plus ancienne. Chaque document est librement téléchargeable.",
+		"empty": "Aucune source de données pour le moment.",
+		"error": "Impossible de charger les sources de données pour le moment.",
+		"sourceLink": "Source d'origine",
+		"downloadedOn": "Téléchargé le {date}",
+		"download": "Télécharger"
+	},
 	"footer": {
 		"sourceCode": "Code source",
 		"aarri": "AARRI"

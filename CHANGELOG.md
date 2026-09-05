@@ -9,6 +9,71 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 _(aucun changement en attente)_
 
+## [0.3.2] — 2026-09-05 — Correction : MONGODB_URI non chargée en dev
+
+### Fixed
+
+- `MONGODB_URI`/`MONGODB_DB` n'étaient jamais lues par le serveur : ni
+  `vite dev` ni `node build/index.js` (adapter-node) ne chargent
+  automatiquement `.env` dans `process.env` pour le code serveur (Vite ne
+  peuple que `import.meta.env` et les modules `$env/*` de SvelteKit).
+  `src/lib/server/db.ts` charge maintenant lui-même `.env` via
+  `process.loadEnvFile()` (API native Node ≥ 20.12)
+- Suppression du chargement `.env` dupliqué dans `scripts/add-data-source.ts`
+  (géré désormais uniquement par `db.ts`)
+
+### Prompt log
+
+- `2026-09-05 | Erreur MONGODB_URI manquante persistante après redémarrage du serveur malgré un .env présent | src/lib/server/db.ts, scripts/add-data-source.ts`
+
+## [0.3.1] — 2026-09-05 — Rappel de démarrage de MongoDB
+
+### Fixed
+
+- README : ajout du rappel pour démarrer MongoDB (service système,
+  `sudo systemctl start mongod`) avant `npm run dev`, cohérent avec les
+  autres projets de la machine (journal, toutatis, punchlinerweb…)
+
+### Prompt log
+
+- `2026-09-05 | Rappel de la commande de démarrage de MongoDB sur cette machine (service système) et ajout au README | README.md`
+
+## [0.3.0] — 2026-09-05 — Page « Nos données »
+
+### Added
+
+- Page publique `/donnees` : liste des sources de données du projet, de la
+  plus récente à la plus ancienne, chacune avec son lien de téléchargement,
+  le lien vers sa source d'origine et sa date de téléchargement
+- Lien « Nos données » dans le footer, à côté du code source et de AARRI
+- Modèle et accès MongoDB pour les sources de données
+  (`src/lib/server/dataSources.ts`, collection `data_sources`)
+- Dossier public `data/sources/` pour les documents téléchargeables
+  (configurable via `DATA_SOURCES_DIR`), avec résolution de chemin protégée
+  contre la traversée de répertoire (`src/lib/server/dataStorage.ts`)
+- Endpoint de téléchargement `GET /donnees/telecharger/[id]` avec
+  `Content-Disposition` UTF-8 (RFC 6266) et repli ASCII
+- Script `npm run data:add` pour ajouter une source (copie le fichier +
+  crée l'entrée en base) sans passer par une interface d'administration
+- Dégradation propre si MongoDB est indisponible : la page affiche un état
+  d'erreur au lieu de planter (erreur journalisée côté serveur)
+- Tests unitaires : validation/formatage des sources de données, nommage et
+  sanitation de fichiers, résolution du dossier de stockage, formatage de
+  taille de fichier
+- Test d'interface (Playwright) : navigation footer → Nos données
+
+### User Story
+
+- En tant que porteur du projet, je veux une page « Nos données » listant
+  mes sources par ordre antéchronologique, chacune téléchargeable avec sa
+  source d'origine et sa date de récupération, afin de garantir la
+  transparence et la traçabilité des données utilisées par l'outil.
+
+### Prompt log
+
+- `2026-09-05 | Ajout d'un lien de footer "Nos données" listant les sources de données (téléchargement libre, lien source d'origine, date de téléchargement, structuré en base) | src/routes/donnees/+page.svelte, src/routes/donnees/+page.server.ts, src/routes/donnees/telecharger/[id]/+server.ts, src/lib/server/dataSources.ts, src/lib/server/dataStorage.ts, src/lib/server/fileNaming.ts, src/lib/utils/formatBytes.ts, src/routes/+layout.svelte, src/lib/i18n/fr.json, src/lib/i18n/en.json, scripts/add-data-source.ts, data/sources/README.md, e2e/golden-path.e2e.ts, .env.example, README.md`
+- `2026-09-05 | Consigne : ne jamais commiter, c'est l'utilisateur qui commit toujours | (aucun fichier de code — consigne de fonctionnement, enregistrée en mémoire)`
+
 ## [0.2.1] — 2026-09-05 — Lien AARRI dans le footer
 
 ### Fixed
@@ -85,7 +150,10 @@ _(aucun changement en attente)_
 
 - `2026-09-05 | Initialisation du projet Nodejs/SvelteKit/MongoDB | package.json, src/hooks.server.ts, src/lib/server/db.ts, src/lib/i18n/*, src/lib/utils/locale.ts, src/routes/+layout.svelte, src/routes/+page.svelte, src/routes/changelog/+page.svelte, CHANGELOG.md, README.md, .env.example`
 
-[Unreleased]: https://github.com/natoine/bavures/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/natoine/bavures/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/natoine/bavures/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/natoine/bavures/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/natoine/bavures/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/natoine/bavures/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/natoine/bavures/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/natoine/bavures/releases/tag/v0.1.0

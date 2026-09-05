@@ -66,6 +66,15 @@
 			}
 		}
 	},
+	"data": {
+		"pageTitle": "Our data",
+		"intro": "List of data sources used by this tool, from most recent to oldest. Every document is freely downloadable.",
+		"empty": "No data sources yet.",
+		"error": "Unable to load data sources right now.",
+		"sourceLink": "Original source",
+		"downloadedOn": "Downloaded on {date}",
+		"download": "Download"
+	},
 	"footer": {
 		"sourceCode": "Source code",
 		"aarri": "AARRI"
