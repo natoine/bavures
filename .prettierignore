@@ -7,3 +7,6 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Fichier d'instructions personnel — ne pas reformater
+/CLAUDE.md

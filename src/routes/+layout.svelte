@@ -30,6 +30,7 @@
 			<a href="https://github.com/natoine/bavures" target="_blank" rel="noreferrer">
 				{$_('footer.sourceCode')}
 			</a>
+			<a href={resolve('/aarri')}>{$_('footer.aarri')}</a>
 		</footer>
 	</div>
 {/if}
@@ -72,8 +73,11 @@
 	}
 
 	.site-footer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
 		padding: 1rem;
-		text-align: center;
 		font-size: 0.875rem;
 		border-top: 1px solid #e2e2e2;
 	}

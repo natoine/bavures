@@ -6,6 +6,9 @@ Outil de dataviz des bavures policières.
 
 - Page d'accueil présentant l'outil (visualisations de données à venir)
 - Page publique [`/changelog`](src/routes/changelog) exposant [CHANGELOG.md](CHANGELOG.md)
+- Page publique [`/aarri`](src/routes/aarri) : tableau AARRI et matrice d'impact
+  du projet (métriques placeholder), reprise du template
+  [setupserviceweb](https://github.com/natoine/setupserviceweb)
 - Interface disponible en français et en anglais, langue détectée automatiquement
   depuis la configuration du navigateur (en-tête `Accept-Language`)
 
@@ -31,6 +34,7 @@ src/
     +layout.svelte         # nav, footer, garde de chargement i18n
     +page.svelte            # accueil
     changelog/              # rendu de CHANGELOG.md
+    aarri/                   # tableau AARRI + matrice d'impact
 e2e/                          # tests Playwright
 ```
 

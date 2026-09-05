@@ -15,7 +15,59 @@
 	"changelog": {
 		"heading": "Journal des modifications"
 	},
+	"aarri": {
+		"pageTitle": "AARRI",
+		"subtitle": "Métriques publiques du projet — Acquisition, Activation, Rétention, Référencement, Impact.",
+		"col": {
+			"step": "Étape",
+			"metric": "Métrique suivie",
+			"value": "Valeur"
+		},
+		"steps": {
+			"acquisition": "Acquisition",
+			"activation": "Activation",
+			"retention": "Rétention",
+			"referral": "Référencement",
+			"impact": "Impact"
+		},
+		"placeholder": {
+			"metric": "Description de la métrique suivie"
+		},
+		"impact": {
+			"title": "Matrice d'impact",
+			"col": {
+				"stage": "Niveau",
+				"metric": "Métriques indicatives",
+				"value": "Valeur"
+			},
+			"utilisable": {
+				"label": "Utilisable",
+				"m1": "Note de facilité d'usage",
+				"m2": "Taux de contact du support",
+				"m3": "Taux d'abandon"
+			},
+			"utilise": {
+				"label": "Utilisé",
+				"m1": "Part de marché",
+				"m2": "Nombre d'utilisateurs actifs",
+				"m3": "Nombre de transactions",
+				"m4": "Taux de rétention"
+			},
+			"utile": {
+				"label": "Utile",
+				"m1": "Valeur générée",
+				"m2": "Note de satisfaction du service rendu"
+			},
+			"impactant": {
+				"label": "Impactant",
+				"m1": "Impact mesuré",
+				"m2": "Risques évités",
+				"m3": "Autres impacts diffus"
+			}
+		}
+	},
 	"footer": {
-		"sourceCode": "Code source"
+		"sourceCode": "Code source",
+		"aarri": "AARRI"
 	}
 }

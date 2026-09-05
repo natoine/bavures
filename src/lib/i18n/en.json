@@ -15,7 +15,59 @@
 	"changelog": {
 		"heading": "Changelog"
 	},
+	"aarri": {
+		"pageTitle": "AARRI",
+		"subtitle": "Public project metrics — Acquisition, Activation, Retention, Referral, Impact.",
+		"col": {
+			"step": "Step",
+			"metric": "Tracked metric",
+			"value": "Value"
+		},
+		"steps": {
+			"acquisition": "Acquisition",
+			"activation": "Activation",
+			"retention": "Retention",
+			"referral": "Referral",
+			"impact": "Impact"
+		},
+		"placeholder": {
+			"metric": "Description of the tracked metric"
+		},
+		"impact": {
+			"title": "Impact Matrix",
+			"col": {
+				"stage": "Level",
+				"metric": "Indicative metrics",
+				"value": "Value"
+			},
+			"utilisable": {
+				"label": "Usable",
+				"m1": "Ease of use score",
+				"m2": "Support contact rate",
+				"m3": "Drop-off rate"
+			},
+			"utilise": {
+				"label": "Used",
+				"m1": "Market share",
+				"m2": "Number of active users",
+				"m3": "Number of transactions",
+				"m4": "Retention rate"
+			},
+			"utile": {
+				"label": "Useful",
+				"m1": "Value generated",
+				"m2": "Service satisfaction score"
+			},
+			"impactant": {
+				"label": "Impactful",
+				"m1": "Measured impact",
+				"m2": "Risks avoided",
+				"m3": "Other diffuse impacts"
+			}
+		}
+	},
 	"footer": {
-		"sourceCode": "Source code"
+		"sourceCode": "Source code",
+		"aarri": "AARRI"
 	}
 }
