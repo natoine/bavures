@@ -73,7 +73,8 @@
 		"error": "Impossible de charger les sources de données pour le moment.",
 		"sourceLink": "Source d'origine",
 		"downloadedOn": "Téléchargé le {date}",
-		"download": "Télécharger"
+		"download": "Télécharger",
+		"downloadExtracted": "Les données extraites de ce rapport"
 	},
 	"footer": {
 		"sourceCode": "Code source",

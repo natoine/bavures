@@ -13,6 +13,8 @@ export interface DataSourceDoc {
 	mimeType?: string;
 	fileSizeBytes?: number;
 	downloadedAt: Date;
+	/** Nom du fichier CSV de données extraites (dans data/extracted/), si disponible. */
+	extractedDataFileName?: string | null;
 }
 
 /** Vue publique, sérialisable, d'une source de données. */
@@ -27,6 +29,7 @@ export interface DataSource {
 	fileSizeBytes: number;
 	/** ISO 8601 */
 	downloadedAt: string;
+	extractedDataFileName: string | null;
 }
 
 /**
@@ -79,7 +82,11 @@ export function toDataSource(doc: WithId<Document>): DataSource {
 				? doc.mimeType
 				: 'application/octet-stream',
 		fileSizeBytes,
-		downloadedAt: downloadedAt.toISOString()
+		downloadedAt: downloadedAt.toISOString(),
+		extractedDataFileName:
+			typeof doc.extractedDataFileName === 'string' && doc.extractedDataFileName.trim() !== ''
+				? doc.extractedDataFileName
+				: null
 	};
 }
 

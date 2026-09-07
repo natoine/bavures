@@ -5,6 +5,7 @@ export interface AddDataSourceArgs {
 	downloadedAt: Date;
 	description: string | null;
 	originalName: string | null;
+	extractedDataFileName: string | null;
 }
 
 /**
@@ -23,10 +24,11 @@ export function parseAddDataSourceArgs(argv: readonly string[]): AddDataSourceAr
 	const downloadedAtRaw = get('--downloaded-at');
 	const description = get('--description') ?? null;
 	const originalName = get('--original-name') ?? null;
+	const extractedDataFileName = get('--extracted-data-file') ?? null;
 
 	if (!title || !sourceUrl || !file) {
 		throw new Error(
-			'Arguments requis manquants. Usage : --title <titre> --source-url <url> --file <chemin> [--downloaded-at AAAA-MM-JJ] [--description <texte>] [--original-name <nom>]'
+			'Arguments requis manquants. Usage : --title <titre> --source-url <url> --file <chemin> [--downloaded-at AAAA-MM-JJ] [--description <texte>] [--original-name <nom>] [--extracted-data-file <nom.csv>]'
 		);
 	}
 
@@ -35,5 +37,5 @@ export function parseAddDataSourceArgs(argv: readonly string[]): AddDataSourceAr
 		throw new Error(`Date --downloaded-at invalide : ${downloadedAtRaw}`);
 	}
 
-	return { title, sourceUrl, file, downloadedAt, description, originalName };
+	return { title, sourceUrl, file, downloadedAt, description, originalName, extractedDataFileName };
 }

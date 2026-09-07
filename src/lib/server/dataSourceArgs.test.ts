@@ -15,7 +15,9 @@ describe('parseAddDataSourceArgs', () => {
 			'--description',
 			'Un texte libre',
 			'--original-name',
-			'Bilan officiel 2025.pdf'
+			'Bilan officiel 2025.pdf',
+			'--extracted-data-file',
+			'2025.csv'
 		]);
 
 		expect(result).toEqual({
@@ -24,7 +26,8 @@ describe('parseAddDataSourceArgs', () => {
 			file: '/tmp/bilan.pdf',
 			downloadedAt: new Date('2026-01-15'),
 			description: 'Un texte libre',
-			originalName: 'Bilan officiel 2025.pdf'
+			originalName: 'Bilan officiel 2025.pdf',
+			extractedDataFileName: '2025.csv'
 		});
 	});
 
@@ -42,6 +45,7 @@ describe('parseAddDataSourceArgs', () => {
 
 		expect(result.description).toBeNull();
 		expect(result.originalName).toBeNull();
+		expect(result.extractedDataFileName).toBeNull();
 		expect(result.downloadedAt.getTime()).toBeGreaterThanOrEqual(before);
 		expect(result.downloadedAt.getTime()).toBeLessThanOrEqual(after);
 	});

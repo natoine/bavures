@@ -10,7 +10,8 @@
  *     --file /chemin/local/vers/le/document.pdf \
  *     [--downloaded-at 2026-09-05] \
  *     [--description "Texte libre"] \
- *     [--original-name "Nom affiché au téléchargement.pdf"]
+ *     [--original-name "Nom affiché au téléchargement.pdf"] \
+ *     [--extracted-data-file "2025.csv"]
  */
 import { addDataSourceFromFile } from '../src/lib/server/addDataSource';
 import { parseAddDataSourceArgs } from '../src/lib/server/dataSourceArgs';
@@ -26,7 +27,8 @@ async function main() {
 		filePath: args.file,
 		downloadedAt: args.downloadedAt,
 		description: args.description,
-		originalName: args.originalName
+		originalName: args.originalName,
+		extractedDataFileName: args.extractedDataFileName
 	});
 
 	console.log(`✔ Source ajoutée : ${args.title}`);

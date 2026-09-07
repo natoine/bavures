@@ -1,0 +1,18 @@
+metric,libelle,valeur,note
+enquetes_judiciaires_ouvertes,Enquêtes judiciaires ouvertes (saisines),1460,annee marquee par le mouvement des gilets jaunes
+enquetes_judiciaires_cloturees,Enquêtes judiciaires clôturées,1322,
+enquetes_administratives_ouvertes,Enquêtes administratives (pré-disciplinaires) ouvertes,224,
+enquetes_administratives_cloturees,Enquêtes administratives clôturées,238,
+effectifs_agents,Effectif total de l'IGPN (agents),285,
+signalements_plateforme,Signalements reçus sur la plateforme de signalement (PFS),4792,
+consultations_juridiques_annee,Consultations juridiques rendues dans l'année,180,
+formations_agents_formes,Agents formés dans l'année,5773,
+structures_evaluees,Structures de la police nationale évaluées,213,
+etudes_realisees,Études réalisées,22,
+missions_accompagnement,Missions d'accompagnement de projet,36,
+fiches_amaris_publiees,Fiches AMARIS publiées dans l'année,59,
+deces_mission_police,Décès de particuliers à l'occasion d'une mission de police,19,
+blesses_mission_police,Blessures graves de particuliers à l'occasion d'une mission de police,117,
+enquetes_injures_racistes_discriminatoires,Enquêtes ouvertes pour injures à caractère raciste ou discriminatoire,31,
+enquetes_corruption_active,Enquêtes pour corruption active,52,
+enquetes_corruption_passive,Enquêtes pour corruption passive,32,

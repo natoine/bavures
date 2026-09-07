@@ -73,7 +73,8 @@
 		"error": "Unable to load data sources right now.",
 		"sourceLink": "Original source",
 		"downloadedOn": "Downloaded on {date}",
-		"download": "Download"
+		"download": "Download",
+		"downloadExtracted": "Data extracted from this report"
 	},
 	"footer": {
 		"sourceCode": "Source code",

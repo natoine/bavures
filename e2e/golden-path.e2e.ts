@@ -36,3 +36,26 @@ test('footer : navigation vers la page Nos données', async ({ page }) => {
 	// une page 500) — selon que MongoDB est disponible et peuplé ou non.
 	await expect(page.locator('.data-list, .notice').first()).toBeVisible();
 });
+
+test('Nos données : le lien de données extraites (si présent) télécharge un CSV', async ({
+	page,
+	request
+}) => {
+	await page.goto('/donnees');
+
+	const extractedLink = page
+		.getByRole('link', { name: /données extraites|extracted from/i })
+		.first();
+	if ((await extractedLink.count()) === 0) {
+		// Aucune source n'a de données extraites dans cet environnement
+		// (base vide ou non peuplée) : rien de plus à vérifier ici.
+		return;
+	}
+
+	const href = await extractedLink.getAttribute('href');
+	expect(href).toBeTruthy();
+
+	const response = await request.get(href!);
+	expect(response.status()).toBe(200);
+	expect(response.headers()['content-type']).toContain('text/csv');
+});

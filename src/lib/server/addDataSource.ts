@@ -15,6 +15,8 @@ export interface AddDataSourceInput {
 	description?: string | null;
 	/** Nom affiché au téléchargement ; par défaut, le nom du fichier local. */
 	originalName?: string | null;
+	/** Nom du CSV de données extraites (dans data/extracted/), si disponible. */
+	extractedDataFileName?: string | null;
 }
 
 export interface AddDataSourceResult {
@@ -53,7 +55,8 @@ export async function addDataSourceFromFile(
 		originalFileName,
 		mimeType: guessMimeType(originalFileName),
 		fileSizeBytes: fileStat.size,
-		downloadedAt: input.downloadedAt
+		downloadedAt: input.downloadedAt,
+		extractedDataFileName: input.extractedDataFileName ?? null
 	});
 
 	return { insertedId: result.insertedId.toString(), storedFilePath };

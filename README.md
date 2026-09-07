@@ -37,9 +37,10 @@ src/
       dataSources.ts       # modèle + accès Mongo pour les sources de données
       dataSourceArgs.ts      # parsing des arguments CLI (pur, testé unitairement)
       addDataSource.ts         # copie fichier + insertion Mongo (partagé par les scripts)
-      dataStorage.ts              # résolution sûre du dossier/fichiers stockés
+      dataStorage.ts              # résolution sûre des dossiers/fichiers stockés (sources + extraits)
       fileNaming.ts                 # nettoyage de noms, MIME, Content-Disposition
-      igpnReports.ts                  # extraction des rapports IGPN depuis le HTML de la page
+      fileResponse.ts                 # réponse HTTP de téléchargement (streaming), partagée
+      igpnReports.ts                    # extraction des rapports IGPN depuis le HTML de la page
     utils/
       locale.ts             # négociation Accept-Language (pur, testé unitairement)
       formatBytes.ts          # formatage lisible d'une taille de fichier
@@ -48,8 +49,10 @@ src/
     +page.svelte            # accueil
     changelog/              # rendu de CHANGELOG.md
     aarri/                   # tableau AARRI + matrice d'impact
-    donnees/                  # « Nos données » + téléchargement des documents
-data/sources/                  # documents sources stockés (voir data/sources/README.md)
+    donnees/                  # « Nos données » + téléchargement des documents et données extraites
+data/
+  sources/                       # documents sources stockés (voir data/sources/README.md)
+  extracted/                       # CSV de données extraites (voir data/extracted/README.md)
 logs/                             # logs des tâches cron (non versionné)
 scripts/
   add-data-source.ts               # CLI pour ajouter une source de données
@@ -116,7 +119,8 @@ npm run data:add -- \
   --file /chemin/local/vers/le/document.pdf \
   --downloaded-at 2026-09-05 \
   --description "Texte libre (optionnel)" \
-  --original-name "Nom affiché au téléchargement.pdf"
+  --original-name "Nom affiché au téléchargement.pdf" \
+  --extracted-data-file "2025.csv"
 ```
 
 ### Rapports annuels de l'IGPN
@@ -145,6 +149,24 @@ PATH=/home/natoine/.nvm/versions/node/v22.22.2/bin:/usr/local/sbin:/usr/local/bi
 Elle tourne le 1er janvier, avril, juillet et octobre à 8h ; le résultat est
 journalisé dans `logs/igpn-check.log` (non versionné). MongoDB doit être
 démarré pour que la tâche fonctionne (voir section Démarrage).
+
+### Données extraites
+
+[`data/extracted/`](data/extracted) contient un CSV par rapport
+(`2017.csv` à `2024.csv`), listant toutes les données chiffrées extraites
+à la main de ce rapport (enquêtes judiciaires et administratives,
+effectifs, signalements, formations, décès et blessés en intervention,
+discriminations, corruption…), avec un nom de métrique cohérent d'un
+fichier à l'autre pour permettre de reconstituer une série temporelle.
+Méthodologie, définition de chaque métrique et limites (séries révisées
+d'un rapport à l'autre, périmètres non comparables) documentées dans
+[data/extracted/README.md](data/extracted/README.md).
+
+Sur la page `/donnees`, chaque rapport ayant des données extraites
+affiche un second lien de téléchargement, « Les données extraites de ce
+rapport », servi par `GET /donnees/telecharger-donnees-extraites/[id]` en
+s'appuyant sur le champ `extractedDataFileName` du document Mongo
+correspondant.
 
 ## Internationalisation
 

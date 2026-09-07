@@ -9,6 +9,63 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 _(aucun changement en attente)_
 
+## [0.6.0] — 2026-09-07 — Restructuration des CSV extraits + lien sur /donnees
+
+### Changed
+
+- `data/extracted/` restructuré : remplace les 4 CSV par métrique (v0.5.0)
+  par **un CSV par rapport** (`2017.csv` à `2024.csv`), chacun listant
+  toutes les données chiffrées extraites de ce rapport (18 métriques au
+  total selon les années : enquêtes judiciaires/administratives,
+  effectifs, signalements, formations, décès/blessés en intervention,
+  discriminations, corruption…), avec un nom de métrique identique d'un
+  fichier à l'autre pour permettre de reconstituer une série temporelle
+- `data/extracted/README.md` réécrit pour ce nouveau format et les
+  métriques ajoutées
+
+### Added
+
+- Sur `/donnees`, second lien de téléchargement « Les données extraites
+  de ce rapport » pour chaque source qui en dispose
+- Endpoint `GET /donnees/telecharger-donnees-extraites/[id]`
+- Champ `extractedDataFileName` sur les documents `data_sources` (renseigné
+  pour les 8 rapports IGPN), option `--extracted-data-file` sur
+  `npm run data:add`
+- `src/lib/server/fileResponse.ts` : réponse de téléchargement (streaming)
+  factorisée, utilisée par les deux endpoints de téléchargement
+- Tests unitaires : résolution du dossier de données extraites, nouveau
+  champ dans `toDataSource`, option CLI `--extracted-data-file`
+- Test d'interface (Playwright) : téléchargement effectif du CSV de
+  données extraites depuis `/donnees`
+
+### Prompt log
+
+- `2026-09-07 | Passage à un CSV par rapport (toutes les données extractibles, nom de métrique cohérent d'un rapport à l'autre) et ajout d'un lien de téléchargement sur la page Nos données | data/extracted/*.csv, data/extracted/README.md, src/lib/server/dataSources.ts, src/lib/server/dataStorage.ts, src/lib/server/fileResponse.ts, src/lib/server/addDataSource.ts, src/lib/server/dataSourceArgs.ts, src/routes/donnees/+page.svelte, src/routes/donnees/telecharger/[id]/+server.ts, src/routes/donnees/telecharger-donnees-extraites/[id]/+server.ts, scripts/add-data-source.ts, src/lib/i18n/fr.json, src/lib/i18n/en.json, e2e/golden-path.e2e.ts, README.md`
+
+## [0.5.0] — 2026-09-06 — CSV de données extraites des rapports IGPN
+
+### Added
+
+- `data/extracted/` : 4 CSV construits à la main à partir du texte des 8
+  rapports annuels de l'IGPN, un par type de donnée, une ligne par année
+  (2017-2024) : `enquetes-judiciaires.csv`, `enquetes-administratives-predisciplinaires.csv`,
+  `effectifs-igpn.csv`, `signalements-plateforme.csv`
+- `data/extracted/README.md` : méthodologie, sources précises (phrase/graphique
+  du rapport) et limites de chaque série, notamment les changements de
+  définition entre rapports (« saisines » vs « procédures » à partir de 2024
+  pour les enquêtes judiciaires) documentés plutôt que lissés silencieusement
+
+### User Story
+
+- En tant que porteur du projet, je veux des CSV structurés par type de
+  donnée, année par année, extraits des rapports annuels de l'IGPN, afin de
+  disposer d'une base exploitable pour les futures visualisations de
+  l'outil.
+
+### Prompt log
+
+- `2026-09-06 | Extraction en CSV (un par type de donnée, année par année) des données contenues dans les rapports annuels de l'IGPN | data/extracted/*.csv, data/extracted/README.md, README.md`
+
 ## [0.4.0] — 2026-09-05 — Rapports annuels IGPN + vérification automatique
 
 ### Added
@@ -193,7 +250,9 @@ _(aucun changement en attente)_
 
 - `2026-09-05 | Initialisation du projet Nodejs/SvelteKit/MongoDB | package.json, src/hooks.server.ts, src/lib/server/db.ts, src/lib/i18n/*, src/lib/utils/locale.ts, src/routes/+layout.svelte, src/routes/+page.svelte, src/routes/changelog/+page.svelte, CHANGELOG.md, README.md, .env.example`
 
-[Unreleased]: https://github.com/natoine/bavures/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/natoine/bavures/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/natoine/bavures/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/natoine/bavures/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/natoine/bavures/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/natoine/bavures/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/natoine/bavures/compare/v0.3.0...v0.3.1

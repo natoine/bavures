@@ -1,0 +1,11 @@
+metric,libelle,valeur,note
+enquetes_judiciaires_ouvertes,Enquêtes judiciaires ouvertes (saisines),1180,
+enquetes_administratives_ouvertes,Enquêtes administratives (pré-disciplinaires) ouvertes,290,chiffre issu de la serie retrospective des rapports 2023/2024
+effectifs_agents,Effectif total de l'IGPN (agents),292,
+signalements_plateforme,Signalements reçus sur la plateforme de signalement (PFS),3916,
+missions_accompagnement,Missions d'accompagnement de projet,12,missions d'accompagnement methodologique
+deces_mission_police,Décès de particuliers à l'occasion d'une mission de police,15,chiffre du bilan 2018 ; revise a 17 par le rapport 2019 (declarations tardives)
+blesses_mission_police,Blessures graves de particuliers à l'occasion d'une mission de police,106,chiffre du bilan 2018 ; revise a 169 par le rapport 2019 (declarations tardives)
+enquetes_injures_racistes_discriminatoires,Enquêtes ouvertes pour injures à caractère raciste ou discriminatoire,46,
+enquetes_corruption_active,Enquêtes pour corruption active,75,
+enquetes_corruption_passive,Enquêtes pour corruption passive,56,
