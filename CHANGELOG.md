@@ -9,6 +9,39 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 _(aucun changement en attente)_
 
+## [0.7.0] — 2026-09-07 — Graphiques des données IGPN sur l'accueil
+
+### Added
+
+- Page d'accueil : un graphique en barres par métrique disponible dans
+  `data/extracted/` (19 au total), en petits multiples — infobulle au
+  survol, valeur du dernier point étiquetée, tableau de données accessible
+  en repli pour chaque graphique
+- `src/lib/server/csv.ts` : parseur CSV minimal (RFC 4180), testé
+  unitairement (champs cités, guillemets doublés, CRLF, BOM)
+- `src/lib/server/extractedMetrics.ts` : assemble les CSV annuels de
+  `data/extracted/` en séries temporelles par métrique
+- `src/lib/components/BarChart.svelte` : graphique en barres réutilisable,
+  conforme au kit dataviz du projet (forme, couleur, marques, interaction,
+  accessibilité)
+- `src/lib/utils/barPath.ts` : chemin SVG d'une barre arrondie en haut,
+  carrée à la ligne de base, testé unitairement
+- Dégradation propre si les CSV sont indisponibles (état vide/erreur géré,
+  jamais de page cassée), comme sur `/donnees`
+- Test d'interface (Playwright) : affichage des graphiques et bascule vers
+  le tableau de valeurs accessible
+
+### User Story
+
+- En tant que porteur du projet, je veux visualiser sous forme de
+  graphiques, sur la page d'accueil, toutes les données déjà extraites des
+  rapports de l'IGPN, afin de rendre ces chiffres immédiatement lisibles
+  sans avoir à ouvrir les CSV.
+
+### Prompt log
+
+- `2026-09-07 | Ajout de graphiques sur la page d'accueil pour toutes les données extraites des rapports IGPN | src/lib/server/csv.ts, src/lib/server/extractedMetrics.ts, src/lib/components/BarChart.svelte, src/lib/utils/barPath.ts, src/routes/+page.server.ts, src/routes/+page.svelte, src/lib/i18n/fr.json, src/lib/i18n/en.json, e2e/golden-path.e2e.ts, README.md`
+
 ## [0.6.0] — 2026-09-07 — Restructuration des CSV extraits + lien sur /donnees
 
 ### Changed
@@ -250,7 +283,8 @@ _(aucun changement en attente)_
 
 - `2026-09-05 | Initialisation du projet Nodejs/SvelteKit/MongoDB | package.json, src/hooks.server.ts, src/lib/server/db.ts, src/lib/i18n/*, src/lib/utils/locale.ts, src/routes/+layout.svelte, src/routes/+page.svelte, src/routes/changelog/+page.svelte, CHANGELOG.md, README.md, .env.example`
 
-[Unreleased]: https://github.com/natoine/bavures/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/natoine/bavures/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/natoine/bavures/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/natoine/bavures/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/natoine/bavures/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/natoine/bavures/compare/v0.3.2...v0.4.0

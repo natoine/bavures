@@ -10,7 +10,16 @@
 	"home": {
 		"heading": "Bavures",
 		"intro": "This tool visualizes data on police misconduct.",
-		"comingSoon": "Visualizations are coming soon."
+		"charts": {
+			"heading": "IGPN in numbers",
+			"intro": "Data extracted from the IGPN's annual reports, from 2017 to 2024.",
+			"detailLink": "Methodology, sources and original documents",
+			"empty": "No extracted data yet.",
+			"error": "Unable to load data right now.",
+			"tableToggle": "View values as a table",
+			"year": "Year",
+			"value": "Value"
+		}
 	},
 	"changelog": {
 		"heading": "Changelog"

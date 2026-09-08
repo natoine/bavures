@@ -4,7 +4,8 @@ Outil de dataviz des bavures policières.
 
 ## Périmètre fonctionnel
 
-- Page d'accueil présentant l'outil (visualisations de données à venir)
+- Page d'accueil présentant l'outil, avec des graphiques (un par métrique)
+  des données extraites des rapports IGPN — voir « Graphiques » ci-dessous
 - Page publique [`/changelog`](src/routes/changelog) exposant [CHANGELOG.md](CHANGELOG.md)
 - Page publique [`/aarri`](src/routes/aarri) : tableau AARRI et matrice d'impact
   du projet (métriques placeholder), reprise du template
@@ -41,12 +42,17 @@ src/
       fileNaming.ts                 # nettoyage de noms, MIME, Content-Disposition
       fileResponse.ts                 # réponse HTTP de téléchargement (streaming), partagée
       igpnReports.ts                    # extraction des rapports IGPN depuis le HTML de la page
+      csv.ts                               # parseur CSV minimal (RFC 4180)
+      extractedMetrics.ts                    # assemble les CSV annuels en séries temporelles
+    components/
+      BarChart.svelte           # graphique en barres réutilisable (accueil)
     utils/
       locale.ts             # négociation Accept-Language (pur, testé unitairement)
       formatBytes.ts          # formatage lisible d'une taille de fichier
+      barPath.ts                # chemin SVG d'une barre arrondie en haut
   routes/
     +layout.svelte         # nav, footer, garde de chargement i18n
-    +page.svelte            # accueil
+    +page.svelte            # accueil + graphiques
     changelog/              # rendu de CHANGELOG.md
     aarri/                   # tableau AARRI + matrice d'impact
     donnees/                  # « Nos données » + téléchargement des documents et données extraites
@@ -167,6 +173,19 @@ affiche un second lien de téléchargement, « Les données extraites de ce
 rapport », servi par `GET /donnees/telecharger-donnees-extraites/[id]` en
 s'appuyant sur le champ `extractedDataFileName` du document Mongo
 correspondant.
+
+## Graphiques
+
+La page d'accueil affiche un graphique en barres par métrique disponible
+dans `data/extracted/` (19 au moment d'écrire ces lignes), en petits
+multiples. `src/lib/server/extractedMetrics.ts` lit tous les fichiers
+`<année>.csv`, les assemble en séries temporelles par métrique (triées par
+année), et `src/lib/components/BarChart.svelte` les affiche : barre
+plafonnée à 24px, valeur du dernier point étiquetée directement, infobulle
+au survol de chaque barre, et un tableau de valeurs accessible (`<details>`)
+en repli pour chaque graphique. Design conforme au kit dataviz du projet
+(forme, couleur, marques, interaction) ; mode sombre volontairement pas
+traité ici tant qu'il ne l'est pas au niveau du site entier.
 
 ## Internationalisation
 

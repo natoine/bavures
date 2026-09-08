@@ -15,6 +15,25 @@ test('la page respecte un viewport mobile', async ({ page }) => {
 	await expect(page.locator('h1')).toBeVisible();
 });
 
+test("accueil : les graphiques de données de l'IGPN s'affichent", async ({ page }) => {
+	await page.goto('/');
+
+	const notice = page.locator('.charts-section .notice');
+	const charts = page.locator('.charts-section .chart');
+
+	// Selon la disponibilité des CSV extraits, la section affiche soit des
+	// graphiques, soit un état vide/erreur géré — jamais une page cassée.
+	await expect(notice.or(charts.first())).toBeVisible();
+
+	if ((await charts.count()) === 0) return;
+
+	await expect(charts.first().locator('svg')).toBeVisible();
+
+	// Le tableau de repli (accessibilité) s'ouvre et porte les mêmes valeurs.
+	await charts.first().locator('summary').click();
+	await expect(charts.first().locator('table tbody tr').first()).toBeVisible();
+});
+
 test('footer : navigation vers la page AARRI', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('contentinfo').getByRole('link', { name: /aarri/i }).click();

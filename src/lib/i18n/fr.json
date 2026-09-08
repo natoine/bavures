@@ -10,7 +10,16 @@
 	"home": {
 		"heading": "Bavures",
 		"intro": "Cet outil visualise des données sur les bavures policières.",
-		"comingSoon": "Les visualisations arrivent prochainement."
+		"charts": {
+			"heading": "Les chiffres de l'IGPN",
+			"intro": "Données extraites des rapports annuels de l'IGPN, de 2017 à 2024.",
+			"detailLink": "Méthodologie, sources et documents d'origine",
+			"empty": "Aucune donnée extraite pour le moment.",
+			"error": "Impossible de charger les données pour le moment.",
+			"tableToggle": "Voir les valeurs en tableau",
+			"year": "Année",
+			"value": "Valeur"
+		}
 	},
 	"changelog": {
 		"heading": "Journal des modifications"
