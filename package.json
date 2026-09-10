@@ -1,7 +1,7 @@
 {
 	"name": "bavures",
 	"private": true,
-	"version": "0.3.2",
+	"version": "0.7.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -15,7 +15,8 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright install && playwright test",
-		"data:add": "tsx scripts/add-data-source.ts"
+		"data:add": "tsx scripts/add-data-source.ts",
+		"data:check-igpn": "tsx scripts/check-igpn-updates.ts"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

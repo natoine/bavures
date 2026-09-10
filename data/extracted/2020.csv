@@ -1,0 +1,18 @@
+metric,libelle,valeur,note
+enquetes_judiciaires_ouvertes,Enquêtes judiciaires ouvertes (saisines),1101,
+enquetes_judiciaires_cloturees,Enquêtes judiciaires clôturées,1167,
+enquetes_administratives_ouvertes,Enquêtes administratives (pré-disciplinaires) ouvertes,173,le rapport 2020 indiquait initialement 174 ; serie retrospective des rapports 2023/2024 = 173
+enquetes_administratives_cloturees,Enquêtes administratives clôturées,207,
+effectifs_agents,Effectif total de l'IGPN (agents),272,
+signalements_plateforme,Signalements reçus sur la plateforme de signalement (PFS),5420,
+consultations_juridiques_annee,Consultations juridiques rendues dans l'année,172,
+formations_agents_formes,Agents formés dans l'année,5358,
+structures_evaluees,Structures de la police nationale évaluées,213,
+etudes_realisees,Études réalisées,20,
+missions_accompagnement,Missions d'accompagnement de projet,33,
+fiches_amaris_publiees,Fiches AMARIS publiées dans l'année,51,
+deces_mission_police,Décès de particuliers à l'occasion d'une mission de police,32,
+blesses_mission_police,Blessures graves de particuliers à l'occasion d'une mission de police,78,
+enquetes_injures_racistes_discriminatoires,Enquêtes ouvertes pour injures à caractère raciste ou discriminatoire,38,
+enquetes_corruption_active,Enquêtes pour corruption active,19,
+enquetes_corruption_passive,Enquêtes pour corruption passive,14,

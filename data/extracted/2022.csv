@@ -1,0 +1,13 @@
+metric,libelle,valeur,note
+enquetes_judiciaires_ouvertes,Enquêtes judiciaires ouvertes (saisines),1065,
+enquetes_administratives_ouvertes,Enquêtes administratives (pré-disciplinaires) ouvertes,192,
+effectifs_agents,Effectif total de l'IGPN (agents),276,
+signalements_plateforme,Signalements reçus sur la plateforme de signalement (PFS),6843,
+formations_nombre_sessions,Nombre de formations dispensées,164,
+formations_agents_formes,Agents formés dans l'année,6753,
+deces_mission_police,Décès de particuliers à l'occasion d'une mission de police,38,
+blesses_mission_police,Blessures graves de particuliers à l'occasion d'une mission de police,66,chiffre du bilan 2022 ; consolide a 73 par le rapport 2023 (declarations tardives)
+enquetes_usage_force,Enquêtes judiciaires portant sur l'usage de la force,508,
+enquetes_injures_racistes_discriminatoires,Enquêtes ouvertes pour injures à caractère raciste ou discriminatoire,52,
+enquetes_corruption_active,Enquêtes pour corruption active,27,
+enquetes_corruption_passive,Enquêtes pour corruption passive,29,

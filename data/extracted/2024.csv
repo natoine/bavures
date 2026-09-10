@@ -1,0 +1,12 @@
+metric,libelle,valeur,note
+enquetes_judiciaires_ouvertes,Enquêtes judiciaires ouvertes (saisines),914,a partir de 2024 le rapport distingue «saisines» et «procedures» ; voir data/extracted/README.md
+enquetes_administratives_ouvertes,Enquêtes administratives (pré-disciplinaires) ouvertes,168,
+effectifs_agents,Effectif total de l'IGPN (agents),260,
+signalements_plateforme,Signalements reçus sur la plateforme de signalement (PFS),6080,
+formations_nombre_sessions,Nombre de formations dispensées,142,
+formations_agents_formes,Agents formés dans l'année,9120,"rapport 2024 parle de «stagiaires», terme legerement different d'«agents formes» les annees precedentes"
+deces_mission_police,Décès de particuliers à l'occasion d'une mission de police,47,
+blesses_mission_police,Blessures graves de particuliers à l'occasion d'une mission de police,68,
+enquetes_injures_racistes_discriminatoires,Enquêtes ouvertes pour injures à caractère raciste ou discriminatoire,43,
+enquetes_corruption_active,Enquêtes pour corruption active,24,
+enquetes_corruption_passive,Enquêtes pour corruption passive,42,

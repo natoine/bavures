@@ -39,9 +39,19 @@
 							>{$_('data.downloadedOn', { values: { date: formatDate(item.downloadedAt) } })}</span
 						>
 					</p>
-					<a class="download" href={resolve('/donnees/telecharger/[id]', { id: item.id })}>
-						{$_('data.download')} ({formatBytes(item.fileSizeBytes)})
-					</a>
+					<p class="downloads">
+						<a class="download" href={resolve('/donnees/telecharger/[id]', { id: item.id })}>
+							{$_('data.download')} ({formatBytes(item.fileSizeBytes)})
+						</a>
+						{#if item.extractedDataFileName}
+							<a
+								class="download"
+								href={resolve('/donnees/telecharger-donnees-extraites/[id]', { id: item.id })}
+							>
+								{$_('data.downloadExtracted')}
+							</a>
+						{/if}
+					</p>
 				</li>
 			{/each}
 		</ul>
@@ -104,6 +114,13 @@
 
 	.dot {
 		color: #bbb;
+	}
+
+	.downloads {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin: 0;
 	}
 
 	.download {

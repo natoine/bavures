@@ -44,6 +44,12 @@ describe('toDataSource', () => {
 		expect(result.originalFileName).toBe('bilan-2025-abc123.pdf');
 		expect(result.mimeType).toBe('application/octet-stream');
 		expect(result.fileSizeBytes).toBe(0);
+		expect(result.extractedDataFileName).toBeNull();
+	});
+
+	it('reprend le nom du CSV de données extraites quand il est présent (cas nominal)', () => {
+		const result = toDataSource(makeDoc({ extractedDataFileName: '2025.csv' }));
+		expect(result.extractedDataFileName).toBe('2025.csv');
 	});
 
 	it("lève une erreur si le titre est manquant (cas d'erreur)", () => {
@@ -74,7 +80,8 @@ describe('sortByDownloadedAtDesc', () => {
 			originalFileName: 'f.pdf',
 			mimeType: 'application/pdf',
 			fileSizeBytes: 0,
-			downloadedAt
+			downloadedAt,
+			extractedDataFileName: null
 		};
 	}
 

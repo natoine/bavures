@@ -4,7 +4,8 @@ Outil de dataviz des bavures policières.
 
 ## Périmètre fonctionnel
 
-- Page d'accueil présentant l'outil (visualisations de données à venir)
+- Page d'accueil présentant l'outil, avec des graphiques (un par métrique)
+  des données extraites des rapports IGPN — voir « Graphiques » ci-dessous
 - Page publique [`/changelog`](src/routes/changelog) exposant [CHANGELOG.md](CHANGELOG.md)
 - Page publique [`/aarri`](src/routes/aarri) : tableau AARRI et matrice d'impact
   du projet (métriques placeholder), reprise du template
@@ -35,20 +36,34 @@ src/
     server/
       db.ts               # connexion MongoDB (singleton)
       dataSources.ts       # modèle + accès Mongo pour les sources de données
-      dataStorage.ts        # résolution sûre du dossier/fichiers stockés
-      fileNaming.ts          # nettoyage de noms, MIME, Content-Disposition
+      dataSourceArgs.ts      # parsing des arguments CLI (pur, testé unitairement)
+      addDataSource.ts         # copie fichier + insertion Mongo (partagé par les scripts)
+      dataStorage.ts              # résolution sûre des dossiers/fichiers stockés (sources + extraits)
+      fileNaming.ts                 # nettoyage de noms, MIME, Content-Disposition
+      fileResponse.ts                 # réponse HTTP de téléchargement (streaming), partagée
+      igpnReports.ts                    # extraction des rapports IGPN depuis le HTML de la page
+      csv.ts                               # parseur CSV minimal (RFC 4180)
+      extractedMetrics.ts                    # assemble les CSV annuels en séries temporelles
+    components/
+      BarChart.svelte           # graphique en barres réutilisable (accueil)
     utils/
       locale.ts             # négociation Accept-Language (pur, testé unitairement)
       formatBytes.ts          # formatage lisible d'une taille de fichier
+      barPath.ts                # chemin SVG d'une barre arrondie en haut
   routes/
     +layout.svelte         # nav, footer, garde de chargement i18n
-    +page.svelte            # accueil
+    +page.svelte            # accueil + graphiques
     changelog/              # rendu de CHANGELOG.md
     aarri/                   # tableau AARRI + matrice d'impact
-    donnees/                  # « Nos données » + téléchargement des documents
-data/sources/                  # documents sources stockés (voir data/sources/README.md)
-scripts/add-data-source.ts       # CLI pour ajouter une source de données
-e2e/                                # tests Playwright
+    donnees/                  # « Nos données » + téléchargement des documents et données extraites
+data/
+  sources/                       # documents sources stockés (voir data/sources/README.md)
+  extracted/                       # CSV de données extraites (voir data/extracted/README.md)
+logs/                             # logs des tâches cron (non versionné)
+scripts/
+  add-data-source.ts               # CLI pour ajouter une source de données
+  check-igpn-updates.ts              # vérification automatique (cron, tous les 3 mois)
+e2e/                                    # tests Playwright
 ```
 
 ## Démarrage
@@ -109,8 +124,68 @@ npm run data:add -- \
   --source-url "https://... (où la donnée a été trouvée)" \
   --file /chemin/local/vers/le/document.pdf \
   --downloaded-at 2026-09-05 \
-  --description "Texte libre (optionnel)"
+  --description "Texte libre (optionnel)" \
+  --original-name "Nom affiché au téléchargement.pdf" \
+  --extracted-data-file "2025.csv"
 ```
+
+### Rapports annuels de l'IGPN
+
+Première source du projet : les 8 rapports annuels de l'IGPN (2017-2024),
+listés sur
+[cette page](https://www.police-nationale.interieur.gouv.fr/nous-decouvrir/notre-organisation/organisation/linspection-generale-de-police-nationale-igpn).
+
+Une vérification automatique tourne tous les 3 mois (cron, voir ci-dessous)
+via `npm run data:check-igpn`
+([scripts/check-igpn-updates.ts](scripts/check-igpn-updates.ts)) : elle
+récupère la page, compare les rapports trouvés à ceux déjà en base (par
+titre), et télécharge + ajoute automatiquement tout nouveau millésime.
+Si le site direct est injoignable (pare-feu Cloudflare bloquant certains
+réseaux), le script retombe sur la dernière capture
+[Wayback Machine](https://web.archive.org) de la page.
+
+Tâche cron installée sur cette machine (`crontab -l`) :
+
+```cron
+PATH=/home/natoine/.nvm/versions/node/v22.22.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Bavures : verification trimestrielle d'un nouveau rapport annuel IGPN
+0 8 1 1,4,7,10 * cd /home/natoine/dev/bavures ; npx tsx scripts/check-igpn-updates.ts >> /home/natoine/dev/bavures/logs/igpn-check.log 2>&1
+```
+
+Elle tourne le 1er janvier, avril, juillet et octobre à 8h ; le résultat est
+journalisé dans `logs/igpn-check.log` (non versionné). MongoDB doit être
+démarré pour que la tâche fonctionne (voir section Démarrage).
+
+### Données extraites
+
+[`data/extracted/`](data/extracted) contient un CSV par rapport
+(`2017.csv` à `2024.csv`), listant toutes les données chiffrées extraites
+à la main de ce rapport (enquêtes judiciaires et administratives,
+effectifs, signalements, formations, décès et blessés en intervention,
+discriminations, corruption…), avec un nom de métrique cohérent d'un
+fichier à l'autre pour permettre de reconstituer une série temporelle.
+Méthodologie, définition de chaque métrique et limites (séries révisées
+d'un rapport à l'autre, périmètres non comparables) documentées dans
+[data/extracted/README.md](data/extracted/README.md).
+
+Sur la page `/donnees`, chaque rapport ayant des données extraites
+affiche un second lien de téléchargement, « Les données extraites de ce
+rapport », servi par `GET /donnees/telecharger-donnees-extraites/[id]` en
+s'appuyant sur le champ `extractedDataFileName` du document Mongo
+correspondant.
+
+## Graphiques
+
+La page d'accueil affiche un graphique en barres par métrique disponible
+dans `data/extracted/` (19 au moment d'écrire ces lignes), en petits
+multiples. `src/lib/server/extractedMetrics.ts` lit tous les fichiers
+`<année>.csv`, les assemble en séries temporelles par métrique (triées par
+année), et `src/lib/components/BarChart.svelte` les affiche : barre
+plafonnée à 24px, valeur du dernier point étiquetée directement, infobulle
+au survol de chaque barre, et un tableau de valeurs accessible (`<details>`)
+en repli pour chaque graphique. Design conforme au kit dataviz du projet
+(forme, couleur, marques, interaction) ; mode sombre volontairement pas
+traité ici tant qu'il ne l'est pas au niveau du site entier.
 
 ## Internationalisation
 
