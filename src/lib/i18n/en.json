@@ -19,6 +19,18 @@
 			"tableToggle": "View values as a table",
 			"year": "Year",
 			"value": "Value"
+		},
+		"timeline": {
+			"heading": "Political context",
+			"intro": "Presidents and interior ministers in office since 1977, their term length and political affiliation — sources on the Our data page.",
+			"title": "Presidents and interior ministers",
+			"president": "President",
+			"ministre": "Interior minister",
+			"tableToggle": "View terms as a table",
+			"role": "Role",
+			"person": "Person",
+			"affiliation": "Affiliation",
+			"period": "Period"
 		}
 	},
 	"changelog": {

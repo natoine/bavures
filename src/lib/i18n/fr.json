@@ -19,6 +19,18 @@
 			"tableToggle": "Voir les valeurs en tableau",
 			"year": "Année",
 			"value": "Valeur"
+		},
+		"timeline": {
+			"heading": "Contexte politique",
+			"intro": "Présidents et ministres de l'Intérieur en exercice depuis 1977, durée de leurs mandats et affiliation politique — sources sur la page Nos données.",
+			"title": "Présidents et ministres de l'Intérieur",
+			"president": "Président",
+			"ministre": "Ministre de l'Intérieur",
+			"tableToggle": "Voir les mandats en tableau",
+			"role": "Fonction",
+			"person": "Personne",
+			"affiliation": "Affiliation",
+			"period": "Période"
 		}
 	},
 	"changelog": {

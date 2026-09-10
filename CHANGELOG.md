@@ -9,6 +9,100 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 _(aucun changement en attente)_
 
+## [0.9.0] — 2026-09-10 — Frise chronologique présidents/ministres
+
+### Added
+
+- Page d'accueil : nouvelle frise chronologique (« Contexte politique »,
+  `src/lib/components/PoliticalTimeline.svelte`) montrant, année après
+  année depuis 1977, les présidents et les ministres de l'Intérieur, la
+  durée de leurs mandats et leur affiliation politique — segments colorés
+  par affiliation (palette catégorielle du kit dataviz), infobulle au
+  survol, légende, tableau de mandats accessible en repli
+- `src/lib/politicalTimeline.ts` (module universel, testé unitairement,
+  23 tests) : découpage des lignes multi-personnes d'une même année
+  (`Nom1 / Nom2`, affiliations `Aff1 puis Aff2`) en tranches temporelles à
+  partir des mois cités dans la note de changement (ou à parts égales à
+  défaut), fusion des tranches consécutives d'une même personne en
+  mandats continus, normalisation des libellés d'affiliation bruts en un
+  petit nombre de familles pour respecter les huit teintes catégorielles
+  du kit dataviz (RPR/UMP fusionnés, LREM/Renaissance fusionnés)
+- `src/lib/server/politicalTimeline.ts` : lecture de
+  `presidents-ministres-interieur.csv` et construction des mandats via le
+  module universel ci-dessus
+
+### Changed
+
+- `data/extracted/presidents-ministres-interieur.csv` remplacé par une
+  version fournie par l'utilisateur sans colonnes chiffrées : le fichier
+  ne décrit plus que le contexte politique (président, ministre de
+  l'Intérieur, affiliations, note de changement), plus aucune donnée de
+  décès/enquêtes/violences n'y figure
+- Description de cette source mise à jour dans MongoDB (`data_sources`)
+  et dans `data/extracted/README.md`
+
+### Removed
+
+- Section « Contexte politique » à base de graphiques en barres (décès
+  selon Basta!, affaires PDAP selon le ministère de la Justice) retirée
+  de la page d'accueil, à la demande explicite de l'utilisateur qui ne
+  veut plus de données Basta! dans le projet
+- `src/lib/server/extractedMetrics.ts` : suppression de
+  `buildMetricSeriesFromWideRecords`, `loadContextMetricSeries` et des
+  constantes associées, devenues mortes avec le retrait des graphiques
+  ci-dessus
+
+### User Story
+
+- En tant que porteur du projet, je ne veux plus que les données Basta!
+  soient présentes ni graphées dans l'outil, et je veux à la place un
+  graphique qui montre, année après année, les présidents, les ministres,
+  la durée de leurs mandats et leurs affiliations politiques.
+
+### Prompt log
+
+- `2026-09-10 | Retrait des données Basta! du CSV présidents/ministres et de leurs graphiques ; ajout d'une frise chronologique présidents/ministres avec durée de mandat et affiliation politique | data/extracted/presidents-ministres-interieur.csv, data/sources/presidents-ministres-interieur-93e6c380.csv, data/extracted/README.md, src/lib/politicalTimeline.ts, src/lib/politicalTimeline.test.ts, src/lib/server/politicalTimeline.ts, src/lib/components/PoliticalTimeline.svelte, src/lib/server/extractedMetrics.ts, src/lib/server/extractedMetrics.test.ts, src/routes/+page.server.ts, src/routes/+page.svelte, src/lib/i18n/fr.json, src/lib/i18n/en.json, README.md, package.json`
+
+## [0.8.0] — 2026-09-07 — Table présidents/ministres de l'Intérieur
+
+### Added
+
+- Nouvelle source de données : `data/extracted/presidents-ministres-interieur.csv`
+  (1977-2026), fournie par l'utilisateur — président, ministre de
+  l'Intérieur, famille politique par année, avec quelques indicateurs
+  chiffrés en regard (Basta!, ministère de la Justice). Sourcé sur
+  interieur.gouv.fr, elysee.fr, vie-publique.fr, Wikipédia/Wikidata.
+  Enregistrée et téléchargeable sur `/donnees` comme les autres sources
+- Page d'accueil : nouvelle section « Contexte politique » avec 2
+  graphiques (décès liés à une intervention policière selon Basta!,
+  affaires pour violences PDAP selon le ministère de la Justice) — les
+  colonnes IGPN de ce fichier ne sont pas re-graphées séparément, pour ne
+  pas dupliquer les graphiques IGPN déjà présents et plus complets
+- `src/lib/server/extractedMetrics.ts` : `buildMetricSeriesFromWideRecords`,
+  pivote un tableau large (une ligne par année, une colonne par variable)
+  vers le même format de série temporelle que les CSV IGPN, testé
+  unitairement
+
+### Fixed
+
+- Encodage du CSV fourni (mojibake UTF-8 lu en Latin-1 : « ValÃ©ry » →
+  « Valéry ») corrigé avant archivage
+- Deux valeurs de décès IGPN dans ce fichier corrigées avant archivage :
+  2023 (6 → 36) et 2024 (16 → 47) confondaient un sous-ensemble (décès par
+  arme à feu) avec le total « décès en mission de police » — corrections
+  et sources documentées dans `data/extracted/README.md`
+
+### User Story
+
+- En tant que porteur du projet, je veux archiver et publier une table
+  croisant présidents/ministres de l'Intérieur avec des indicateurs de
+  violences policières, avec ses sources citées et vérifiées, afin de
+  donner un contexte politique aux chiffres déjà publiés.
+
+### Prompt log
+
+- `2026-09-07 | Ajout d'un CSV présidents/ministres de l'Intérieur avec indicateurs de violences policières, sources citées, téléchargeable sur Nos données et graphé sur l'accueil | data/extracted/presidents-ministres-interieur.csv, data/extracted/README.md, src/lib/server/extractedMetrics.ts, src/routes/+page.server.ts, src/routes/+page.svelte, src/lib/i18n/fr.json, src/lib/i18n/en.json, README.md`
+
 ## [0.7.0] — 2026-09-07 — Graphiques des données IGPN sur l'accueil
 
 ### Added
@@ -283,7 +377,8 @@ _(aucun changement en attente)_
 
 - `2026-09-05 | Initialisation du projet Nodejs/SvelteKit/MongoDB | package.json, src/hooks.server.ts, src/lib/server/db.ts, src/lib/i18n/*, src/lib/utils/locale.ts, src/routes/+layout.svelte, src/routes/+page.svelte, src/routes/changelog/+page.svelte, CHANGELOG.md, README.md, .env.example`
 
-[Unreleased]: https://github.com/natoine/bavures/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/natoine/bavures/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/natoine/bavures/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/natoine/bavures/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/natoine/bavures/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/natoine/bavures/compare/v0.4.0...v0.5.0

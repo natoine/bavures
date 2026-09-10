@@ -174,18 +174,50 @@ rapport », servi par `GET /donnees/telecharger-donnees-extraites/[id]` en
 s'appuyant sur le champ `extractedDataFileName` du document Mongo
 correspondant.
 
+### Présidents et ministres de l'Intérieur
+
+[`data/extracted/presidents-ministres-interieur.csv`](data/extracted/presidents-ministres-interieur.csv) :
+table de contexte politique (1977-2026), une ligne par année — président,
+ministre de l'Intérieur et famille politique de chacun, avec une note
+libre sur les changements de ministre en cours d'année. Ce fichier ne
+contient aucune donnée chiffrée (décès, enquêtes, violences...) : il sert
+uniquement à situer le contexte politique en regard des chiffres IGPN.
+Contrairement aux CSV IGPN, fourni par l'utilisateur (pas extrait par
+Claude), sourcé sur interieur.gouv.fr / elysee.fr / vie-publique.fr /
+Wikipédia-Wikidata. Détail complet et logique de traitement (mandats
+partagés en cours d'année, normalisation des affiliations) dans
+[data/extracted/README.md](data/extracted/README.md). Enregistré comme
+n'importe quelle autre source (`npm run data:add`), téléchargeable sur
+`/donnees`.
+
 ## Graphiques
 
-La page d'accueil affiche un graphique en barres par métrique disponible
-dans `data/extracted/` (19 au moment d'écrire ces lignes), en petits
-multiples. `src/lib/server/extractedMetrics.ts` lit tous les fichiers
-`<année>.csv`, les assemble en séries temporelles par métrique (triées par
-année), et `src/lib/components/BarChart.svelte` les affiche : barre
-plafonnée à 24px, valeur du dernier point étiquetée directement, infobulle
-au survol de chaque barre, et un tableau de valeurs accessible (`<details>`)
-en repli pour chaque graphique. Design conforme au kit dataviz du projet
-(forme, couleur, marques, interaction) ; mode sombre volontairement pas
-traité ici tant qu'il ne l'est pas au niveau du site entier.
+La page d'accueil affiche deux sections. « Les chiffres de l'IGPN » : un
+graphique en barres par métrique disponible dans `data/extracted/`
+(19 métriques au moment d'écrire ces lignes), en petits multiples.
+`src/lib/server/extractedMetrics.ts` lit tous les fichiers `<année>.csv`
+et les assemble en séries temporelles par métrique (triées par année,
+`buildMetricSeries`). `src/lib/components/BarChart.svelte` affiche chaque
+série : barre plafonnée à 24px, valeur du dernier point étiquetée
+directement, infobulle au survol de chaque barre, et un tableau de
+valeurs accessible (`<details>`) en repli.
+
+« Contexte politique » : une frise chronologique
+(`src/lib/components/PoliticalTimeline.svelte`) montrant, pour les
+présidents et pour les ministres de l'Intérieur, la durée de chaque
+mandat et son affiliation politique, à partir de
+`presidents-ministres-interieur.csv`. La logique pure de découpage des
+lignes multi-personnes, de fusion des mandats consécutifs et de
+normalisation des affiliations vit dans `src/lib/politicalTimeline.ts`
+(module universel, testé indépendamment du composant) ; seule la lecture
+du fichier est faite côté serveur
+(`src/lib/server/politicalTimeline.ts`). Chaque mandat est représenté par
+un segment coloré par affiliation, une infobulle au survol, une légende,
+et le même repli `<details>` accessible que les graphiques en barres.
+
+Design conforme au kit dataviz du projet (forme, couleur, marques,
+interaction) ; mode sombre volontairement pas traité ici tant qu'il ne
+l'est pas au niveau du site entier.
 
 ## Internationalisation
 

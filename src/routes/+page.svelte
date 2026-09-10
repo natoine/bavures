@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { _ } from 'svelte-i18n';
 	import BarChart from '$lib/components/BarChart.svelte';
+	import PoliticalTimeline from '$lib/components/PoliticalTimeline.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -36,6 +37,17 @@
 		</div>
 	{/if}
 </section>
+
+{#if !data.loadError && (data.politicalTimeline.president.length > 0 || data.politicalTimeline.ministre.length > 0)}
+	<section class="charts-section">
+		<h2>{$_('home.timeline.heading')}</h2>
+		<p class="intro">{$_('home.timeline.intro')}</p>
+		<PoliticalTimeline
+			president={data.politicalTimeline.president}
+			ministre={data.politicalTimeline.ministre}
+		/>
+	</section>
+{/if}
 
 <style>
 	.tagline {
